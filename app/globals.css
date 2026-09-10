@@ -1216,70 +1216,45 @@ section h2 em {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
-.portrait-placeholder {
+.instructor-portrait {
   position: relative;
   overflow: hidden;
-  display: grid;
-  place-items: center;
   background: #151619;
   border-right: 1px solid var(--border);
 }
-.portrait-placeholder:before {
+.instructor-portrait:after {
   content: '';
   position: absolute;
-  width: 42%;
-  aspect-ratio: 0.74;
-  border-radius: 48% 48% 10% 10%;
-  background: linear-gradient(#2f3437, #1e2023);
-  filter: contrast(1.2);
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 11, 13, 0.08) 55%,
+    rgba(11, 11, 13, 0.7) 100%
+  );
+  pointer-events: none;
 }
-.portrait-placeholder:after {
-  content: '';
-  position: absolute;
-  width: 34%;
-  aspect-ratio: 1;
-  top: 22%;
-  border-radius: 50%;
-  background: #383c3e;
+.instructor-portrait img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 42%;
 }
-.portrait-placeholder > span {
+.instructor-portrait > span {
   position: absolute;
+  z-index: 1;
   top: 24px;
   left: 24px;
   color: var(--cyan);
   font: 600 9px/1 var(--font-geist-mono);
 }
-.portrait-placeholder > b {
+.instructor-portrait > b {
   position: absolute;
+  z-index: 1;
   right: 24px;
   bottom: 24px;
-  color: #55555d;
+  color: rgba(255, 255, 255, 0.72);
   font: 600 9px/1 var(--font-geist-mono);
-}
-.portrait-placeholder div {
-  position: absolute;
-  z-index: 2;
-  width: 58%;
-  aspect-ratio: 9/13;
-  border: 1px dashed rgba(255, 255, 255, 0.25);
-}
-.portrait-placeholder i {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--cyan);
-}
-.portrait-placeholder i:nth-child(1) {
-  left: -4px;
-  top: -4px;
-}
-.portrait-placeholder i:nth-child(2) {
-  right: -4px;
-  top: -4px;
-}
-.portrait-placeholder i:nth-child(3) {
-  right: -4px;
-  bottom: -4px;
 }
 .instructor-copy {
   display: flex;
@@ -1297,29 +1272,26 @@ section h2 em {
 }
 .instructor-copy > p:not(.eyebrow) {
   color: var(--muted);
-  font: 600 11px/1 var(--font-geist-mono);
+  font: 600 11px/1.45 var(--font-geist-mono);
+  text-transform: uppercase;
 }
 .instructor-copy dl {
   margin: 38px 0 0;
 }
 .instructor-copy dl div {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 24px;
   padding: 15px 0;
   border-top: 1px solid var(--border);
-  font: 600 10px/1 var(--font-geist-mono);
+  font: 600 10px/1.55 var(--font-geist-mono);
 }
 .instructor-copy dt {
   color: #66666e;
 }
 .instructor-copy dd {
   margin: 0;
-}
-.instructor-copy small {
-  margin-top: 24px;
-  color: #626269;
-  font-size: 12px;
-  line-height: 1.5;
+  max-width: 460px;
 }
 .fit {
   display: grid;
@@ -1911,7 +1883,7 @@ footer > div {
     grid-template-columns: 1fr;
     margin-top: 20px;
   }
-  .portrait-placeholder {
+  .instructor-portrait {
     min-height: 580px;
     border-right: 0;
     border-bottom: 1px solid var(--border);
@@ -1924,6 +1896,11 @@ footer > div {
   }
   .instructor-copy h3 {
     margin-top: 60px;
+  }
+  .instructor-copy dl div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 18px 0;
   }
   .fit {
     grid-template-columns: 1fr;

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, type CSSProperties } from 'react';
 import { course } from '@/data/course';
 
@@ -439,17 +440,17 @@ export default function CourseLanding() {
       </section>
 
       <section className="instructor" id="author">
-        <div
-          className="portrait-placeholder"
-          aria-label="Место для портрета автора"
-        >
-          <span>PORTRAIT / REPLACE</span>
-          <div>
-            <i />
-            <i />
-            <i />
-          </div>
-          <b>9:16</b>
+        <div className="instructor-portrait">
+          <Image
+            src="/mentor-zhibek.jpg"
+            alt="Жибек Мурзабекова — режиссёр, оператор и монтажёр"
+            width={853}
+            height={1280}
+            sizes="(max-width: 780px) 100vw, 50vw"
+            unoptimized
+          />
+          <span>MENTOR / ZHIBEK</span>
+          <b>07+ YEARS</b>
         </div>
         <div className="instructor-copy">
           <p className="eyebrow">WHO / CREATOR</p>
@@ -474,9 +475,6 @@ export default function CourseLanding() {
               <dd>{course.instructor.results}</dd>
             </div>
           </dl>
-          <small>
-            Замените отмеченные поля на подтверждённые данные автора.
-          </small>
         </div>
       </section>
 
