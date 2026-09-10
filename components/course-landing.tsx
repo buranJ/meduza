@@ -93,7 +93,7 @@ function PortfolioSlider() {
         {portfolioReels.map((videoId, index) => (
           <article className="reel" key={videoId}>
             <iframe
-              src={`https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0`}
+              src={`https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&cc_load_policy=0&iv_load_policy=3`}
               title={`Работа Жибек Мурзабековой — ролик ${index + 1}`}
               loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -168,7 +168,7 @@ function EditorMockup() {
           <iframe
             ref={videoRef}
             className="hero-video"
-            src="https://www.youtube.com/embed/C6CZEmOgpUw?autoplay=1&mute=1&loop=1&playlist=C6CZEmOgpUw&controls=0&playsinline=1&rel=0&enablejsapi=1"
+            src="https://www.youtube.com/embed/C6CZEmOgpUw?autoplay=1&mute=1&loop=1&playlist=C6CZEmOgpUw&controls=0&playsinline=1&rel=0&enablejsapi=1&cc_load_policy=0&iv_load_policy=3"
             title="Ролик Жибек Мурзабековой"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
@@ -193,8 +193,15 @@ function EditorMockup() {
             aria-label={muted ? 'Включить звук' : 'Выключить звук'}
             aria-pressed={!muted}
           >
-            <span aria-hidden="true">{muted ? '×' : '●'}</span>
-            {muted ? 'ВКЛЮЧИТЬ ЗВУК' : 'ЗВУК ВКЛ.'}
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" />
+              {muted ? (
+                <path d="m16 9 5 6m0-6-5 6" />
+              ) : (
+                <path d="M16 8c1.7 2.2 1.7 5.8 0 8m3-11c3.5 3.8 3.5 10.2 0 14" />
+              )}
+            </svg>
+            <span>{muted ? 'ЗВУК' : 'ВКЛ.'}</span>
           </button>
         </div>
         <aside className="inspector">

@@ -362,38 +362,49 @@ section h2 em {
 .sound-control {
   position: absolute;
   z-index: 3;
-  left: 50%;
+  right: 10px;
   bottom: 10px;
-  min-width: 148px;
+  min-width: 78px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 0 12px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 4px;
-  background: rgba(8, 8, 10, 0.82);
-  color: #fff;
-  font: 600 8px/1 var(--font-geist-mono);
-  letter-spacing: 0.08em;
-  transform: translateX(-50%);
-  backdrop-filter: blur(8px);
+  gap: 7px;
+  padding: 0 11px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(8, 8, 10, 0.68);
+  color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
   cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+.sound-control svg {
+  width: 15px;
+  height: 15px;
+  color: var(--cyan);
+  overflow: visible;
+}
+.sound-control svg path:not(:first-child) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
 }
 .sound-control span {
-  width: 14px;
-  height: 14px;
-  display: grid;
-  place-items: center;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  color: var(--cyan);
-  font-size: 9px;
+  font: 600 8px/1 var(--font-geist-mono);
+  letter-spacing: 0.08em;
 }
 .sound-control[aria-pressed='true'] {
   border-color: rgba(38, 229, 229, 0.55);
   color: var(--cyan);
+}
+.sound-control:hover {
+  border-color: rgba(38, 229, 229, 0.55);
+  background: rgba(8, 8, 10, 0.84);
 }
 .play-icon {
   display: block;
