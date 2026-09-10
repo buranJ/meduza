@@ -637,15 +637,26 @@ section h2 em {
 .problem h2 {
   font-size: clamp(68px, 8.2vw, 124px);
   line-height: 0.86;
+  text-transform: none;
 }
 .problem h2 em {
   color: var(--warm);
 }
-.problem h2 span {
+.problem h2 .problem-lead,
+.problem h2 .problem-tail {
   display: block;
+}
+.problem h2 .problem-lead b,
+.problem h2 .problem-tail b {
+  font-weight: 570;
+}
+.problem h2 .problem-tail {
   margin-top: 0.18em;
   margin-left: 20%;
   color: #77777f;
+}
+.mobile-break {
+  display: none;
 }
 .observations {
   width: 78%;
@@ -1750,12 +1761,21 @@ footer > div {
     padding-top: 160px;
   }
   .problem h2 {
-    font-size: clamp(45px, 13vw, 66px);
-    line-height: 0.88;
+    font-size: clamp(39px, 10.9vw, 48px);
+    line-height: 0.94;
+    letter-spacing: -0.052em;
   }
-  .problem h2 span {
+  .problem h2 .problem-tail {
     margin-left: 0;
-    margin-top: 0.5em;
+    margin-top: 0.68em;
+    font-size: 0.9em;
+    line-height: 0.98;
+  }
+  .problem h2 .problem-lead em {
+    margin-top: 0.08em;
+  }
+  .mobile-break {
+    display: block;
   }
   .observations {
     width: 100%;

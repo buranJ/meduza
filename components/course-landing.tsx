@@ -310,16 +310,21 @@ export default function CourseLanding() {
         <span className="proof-end">COURSE_01.MP4</span>
       </section>
 
-      <section className="problem section-pad">
+      <section className="problem section-pad" id="problem">
         <p className="eyebrow">ПОЧЕМУ ОДНИХ ИНСТРУМЕНТОВ МАЛО</p>
         <h2>
-          CAPCUT УМЕЮТ
-          <br />
-          <em>скачать все.</em>
-          <br />
-          <span>
-            МОНТИРОВАТЬ —<br />
-            ДАЛЕКО НЕ ВСЕ.
+          <span className="problem-lead">
+            <b>CAPCUT</b> могут
+            <br />
+            <em>скачать все.</em>
+          </span>
+          <span className="problem-tail">
+            <b>
+              Грамотно <br className="mobile-break" />
+              смонтировать —
+            </b>
+            <br />
+            далеко не все.
           </span>
         </h2>
         <div className="observations">
