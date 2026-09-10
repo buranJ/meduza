@@ -357,17 +357,12 @@ export default function CourseLanding() {
       <section className="showcase" id="work">
         <div className="section-head">
           <div>
-            <p className="eyebrow">MEDIA BIN / SELECTED</p>
             <h2>
               РАБОТЫ, КОТОРЫЕ
               <br />
               <Mark>держат внимание.</Mark>
             </h2>
           </div>
-          <p>
-            Пять направлений монтажа. Эти рамки готовы принять реальные работы
-            автора или учеников.
-          </p>
         </div>
         <div className="reel-scroller">
           {reelStyles.map((style, index) => (
@@ -394,7 +389,6 @@ export default function CourseLanding() {
       <section className="program section-pad" id="program">
         <div className="section-head program-head">
           <div>
-            <p className="eyebrow">PROJECT / COURSE_01</p>
             <h2>ПРОГРАММА</h2>
           </div>
           <p>
