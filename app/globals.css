@@ -674,20 +674,22 @@ section h2 em {
   border-radius: 50%;
 }
 .reel-scroller {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
-  width: max-content;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 0 max(32px, calc((100vw - 1376px) /2));
 }
 .reel {
   position: relative;
-  width: min(24vw, 330px);
+  min-width: 0;
   aspect-ratio: 9/16;
-  flex: 0 0 auto;
-  padding: 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
+  background: #111114;
   transition:
     transform 0.3s,
     border-color 0.3s;
@@ -696,88 +698,11 @@ section h2 em {
   transform: translateY(-8px);
   border-color: #4d4d55;
 }
-.reel-chrome,
-.reel-footer {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  justify-content: space-between;
-  color: rgba(255, 255, 255, 0.58);
-  font: 600 9px/1 var(--font-geist-mono);
-}
-.reel-footer {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
-  align-items: center;
-}
-.reel-footer b {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-.reel:hover .reel-footer b {
-  opacity: 1;
-}
-.reel-art {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-}
-.reel-art:before,
-.reel-art:after {
-  content: '';
-  position: absolute;
-}
-.reel-art:before {
-  width: 60%;
-  height: 40%;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transform: rotate(18deg);
-}
-.reel-art:after {
-  width: 58%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-}
-.reel-word {
-  position: relative;
-  z-index: 2;
-  font-size: clamp(24px, 3vw, 44px);
-  font-weight: 650;
-  letter-spacing: -0.07em;
-  writing-mode: vertical-rl;
-}
-.reel-art i {
-  position: absolute;
-  inset: 14% 10%;
-  border: 1px dashed rgba(255, 255, 255, 0.18);
-}
-.reel-one {
-  background: #173a3c;
-}
-.reel-two {
-  background: #29292e;
-  margin-top: 75px;
-}
-.reel-three {
-  background: #35291f;
-}
-.reel-four {
-  background: #172f35;
-  margin-top: 38px;
-}
-.reel-five {
-  background: #241e2d;
+.reel iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
 }
 .program {
   max-width: 1440px;
@@ -1712,6 +1637,7 @@ footer > div {
     font-size: 48px;
   }
   .reel-scroller {
+    display: flex;
     width: auto;
     max-width: 100%;
     overflow-x: auto;
@@ -1722,11 +1648,8 @@ footer > div {
   .reel {
     width: 73vw;
     max-width: 300px;
+    flex: 0 0 auto;
     scroll-snap-align: start;
-  }
-  .reel-two,
-  .reel-four {
-    margin-top: 0;
   }
   .program {
     padding-top: 100px;

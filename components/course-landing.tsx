@@ -4,12 +4,12 @@ import Image from 'next/image';
 import { useRef, useState, type CSSProperties } from 'react';
 import { course } from '@/data/course';
 
-const reelStyles = [
-  'reel-one',
-  'reel-two',
-  'reel-three',
-  'reel-four',
-  'reel-five',
+const portfolioReels = [
+  'GaR6f_G52NA',
+  'Dgksh0dudyY',
+  'IVooWGppgas',
+  '2k9A6nURH34',
+  'SNiVB7hoi0U',
 ];
 const waveform = [
   18, 38, 62, 32, 74, 48, 26, 66, 44, 82, 34, 58, 72, 24, 48, 68, 38, 76, 30,
@@ -381,22 +381,16 @@ export default function CourseLanding() {
           </div>
         </div>
         <div className="reel-scroller">
-          {reelStyles.map((style, index) => (
-            <article className={`reel ${style}`} key={style}>
-              <div className="reel-chrome">
-                <span>00:{12 + index * 3}</span>
-                <span>REEL / 0{index + 1}</span>
-              </div>
-              <div className="reel-art">
-                <span className="reel-word">
-                  {['RHYTHM', 'VOICE', 'CUT', 'COLOR', 'STORY'][index]}
-                </span>
-                <i />
-              </div>
-              <div className="reel-footer">
-                <span>EDIT_0{index + 1}</span>
-                <b>▶</b>
-              </div>
+          {portfolioReels.map((videoId, index) => (
+            <article className="reel" key={videoId}>
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0`}
+                title={`Работа Жибек Мурзабековой — ролик ${index + 1}`}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
             </article>
           ))}
         </div>
