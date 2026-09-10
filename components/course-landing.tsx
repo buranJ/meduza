@@ -12,6 +12,10 @@ const portfolioReels = [
   'SNiVB7hoi0U',
 ];
 const whatsappUrl = 'https://wa.me/996555180868';
+const planWhatsAppUrl = (plan: string) =>
+  `${whatsappUrl}?text=${encodeURIComponent(
+    `Здравствуйте! Хочу подробнее узнать о тарифе «${plan}».`,
+  )}`;
 const waveform = [
   18, 38, 62, 32, 74, 48, 26, 66, 44, 82, 34, 58, 72, 24, 48, 68, 38, 76, 30,
   54, 84, 42, 64, 26, 46, 72, 34, 60, 80, 40, 56, 28,
@@ -617,38 +621,60 @@ export default function CourseLanding() {
       </section>
 
       <section className="pricing section-pad" id="price">
-        <div className="price-console">
-          <div className="price-top">
-            <span>FULL COURSE</span>
-            <span>COURSE_01</span>
-            <i>● ONLINE</i>
+        <div className="pricing-heading">
+          <div>
+            <p className="eyebrow">EXPORT SETTINGS / 03</p>
+            <h2>
+              ВЫБЕРИ
+              <br />
+              <em>свой режим.</em>
+            </h2>
           </div>
-          <div className="price-main">
-            <div>
-              <p>CAPCUT</p>
-              <h2>
-                ОТ НУЛЯ
-                <br />
-                ДО <em>REELS</em>
-              </h2>
-            </div>
-            <div className="price-meta">
-              {course.meta.slice(0, 4).map((item) => (
-                <span key={item.label}>
-                  {item.value === '∞' ? 'навсегда' : item.value}{' '}
-                  {item.value === '∞' ? 'доступ' : item.label}
-                </span>
-              ))}
-            </div>
-            <div className="price-buy">
-              <small>СТОИМОСТЬ</small>
-              <strong>{course.offer.price}</strong>
-              <a href={whatsappUrl} target="_blank" rel="noreferrer">
-                Начать курс <span>→</span>
+          <p>
+            Один курс — три уровня поддержки. Выбирай, сколько обратной связи
+            нужно именно тебе.
+          </p>
+        </div>
+        <div className="pricing-ruler" aria-hidden="true">
+          <span>00:00 / START</span>
+          <span>TRACK 01—03</span>
+          <span>EXPORT / READY</span>
+        </div>
+        <div className="pricing-grid">
+          {course.plans.map((plan, index) => (
+            <article
+              className={`plan-card ${plan.featured ? 'featured' : ''}`}
+              key={plan.code}
+            >
+              <div className="plan-chrome">
+                <span>TRACK / 0{index + 1}</span>
+                <span>{plan.featured ? '● РЕКОМЕНДУЕМ' : '○ ДОСТУПЕН'}</span>
+              </div>
+              <div className="plan-clip" aria-hidden="true">
+                <span>{plan.code}</span>
+                <i />
+                <b>0{index + 1}</b>
+              </div>
+              <div className="plan-name">
+                <small>{plan.code}</small>
+                <h3>{plan.name}</h3>
+                <p>{plan.description}</p>
+              </div>
+              <strong className="plan-price">{plan.price}</strong>
+              <ul>
+                {plan.features.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+              <a
+                href={planWhatsAppUrl(plan.name)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Подробнее <span>→</span>
               </a>
-            </div>
-          </div>
-          <p className="price-note">{course.offer.note}</p>
+            </article>
+          ))}
         </div>
       </section>
 
