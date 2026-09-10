@@ -200,7 +200,7 @@ function BeforeAfter() {
         role="tablist"
         aria-label="Категория сравнения"
       >
-        {['МОНТАЖ', 'ЦВЕТ', 'ТЕКСТ', 'ЗВУК'].map((item) => (
+        {['МОНТАЖ', 'ЦВЕТ', 'ТЕКСТ'].map((item) => (
           <button
             type="button"
             role="tab"
