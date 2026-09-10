@@ -771,19 +771,62 @@ section h2 em {
   background: var(--cyan);
   border-radius: 50%;
 }
-.reel-scroller {
+.showcase-controls {
+  justify-self: end;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: auto 48px 48px;
+  align-items: center;
+  gap: 8px;
+}
+.showcase-controls > span {
+  margin-right: 10px;
+  color: #66666e;
+  font: 600 9px/1 var(--font-geist-mono);
+  letter-spacing: 0.12em;
+}
+.showcase-controls button {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: #121215;
+  color: var(--text);
+  font-size: 19px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+.showcase-controls button:hover:not(:disabled) {
+  border-color: var(--cyan);
+  background: rgba(38, 229, 229, 0.08);
+  color: var(--cyan);
+}
+.showcase-controls button:disabled {
+  color: #4b4b52;
+  cursor: default;
+}
+.reel-scroller {
+  display: flex;
+  gap: 12px;
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 max(32px, calc((100vw - 1376px) /2));
+  overflow-x: auto;
+  padding: 8px max(32px, calc((100vw - 1376px) / 2)) 24px;
+  scroll-padding-left: max(32px, calc((100vw - 1376px) / 2));
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.reel-scroller::-webkit-scrollbar {
+  display: none;
 }
 .reel {
   position: relative;
-  min-width: 0;
+  width: clamp(260px, 22vw, 320px);
+  flex: 0 0 auto;
   aspect-ratio: 9/16;
+  scroll-snap-align: start;
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
@@ -1751,14 +1794,14 @@ footer > div {
   .section-head h2 {
     font-size: 48px;
   }
+  .showcase-controls {
+    width: 100%;
+    grid-template-columns: 1fr 48px 48px;
+    justify-self: stretch;
+  }
   .reel-scroller {
-    display: flex;
-    width: auto;
-    max-width: 100%;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
     padding: 0 16px 24px;
-    scrollbar-width: none;
+    scroll-padding-left: 16px;
   }
   .reel {
     width: 73vw;

@@ -20,6 +20,88 @@ function Mark({ children }: { children: React.ReactNode }) {
   return <span className="mark">{children}</span>;
 }
 
+function PortfolioSlider() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [canScrollBack, setCanScrollBack] = useState(false);
+  const [canScrollForward, setCanScrollForward] = useState(true);
+
+  const updateControls = () => {
+    const scroller = scrollerRef.current;
+
+    if (!scroller) return;
+
+    const maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
+    setCanScrollBack(scroller.scrollLeft > 2);
+    setCanScrollForward(scroller.scrollLeft < maxScrollLeft - 2);
+  };
+
+  const scrollPortfolio = (direction: -1 | 1) => {
+    const scroller = scrollerRef.current;
+
+    if (!scroller) return;
+
+    scroller.scrollBy({
+      left: direction * Math.min(scroller.clientWidth * 0.82, 720),
+      behavior: 'smooth',
+    });
+  };
+
+  return (
+    <>
+      <div className="section-head work-head">
+        <div>
+          <h2>
+            РАБОТЫ, КОТОРЫЕ
+            <br />
+            <Mark>держат внимание.</Mark>
+          </h2>
+        </div>
+        <div className="showcase-controls">
+          <span>05 / SHORTS</span>
+          <button
+            type="button"
+            onClick={() => scrollPortfolio(-1)}
+            disabled={!canScrollBack}
+            aria-label="Предыдущие ролики"
+            aria-controls="portfolio-reels"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollPortfolio(1)}
+            disabled={!canScrollForward}
+            aria-label="Следующие ролики"
+            aria-controls="portfolio-reels"
+          >
+            →
+          </button>
+        </div>
+      </div>
+      <div
+        className="reel-scroller"
+        id="portfolio-reels"
+        ref={scrollerRef}
+        onScroll={updateControls}
+        aria-label="Работы Жибек Мурзабековой"
+      >
+        {portfolioReels.map((videoId, index) => (
+          <article className="reel" key={videoId}>
+            <iframe
+              src={`https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0`}
+              title={`Работа Жибек Мурзабековой — ролик ${index + 1}`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          </article>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function EditorMockup() {
   const [playing, setPlaying] = useState(true);
   const videoRef = useRef<HTMLIFrameElement>(null);
@@ -376,29 +458,7 @@ export default function CourseLanding() {
       </section>
 
       <section className="showcase" id="work">
-        <div className="section-head">
-          <div>
-            <h2>
-              РАБОТЫ, КОТОРЫЕ
-              <br />
-              <Mark>держат внимание.</Mark>
-            </h2>
-          </div>
-        </div>
-        <div className="reel-scroller">
-          {portfolioReels.map((videoId, index) => (
-            <article className="reel" key={videoId}>
-              <iframe
-                src={`https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0`}
-                title={`Работа Жибек Мурзабековой — ролик ${index + 1}`}
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </article>
-          ))}
-        </div>
+        <PortfolioSlider />
       </section>
 
       <section className="program section-pad" id="program">
