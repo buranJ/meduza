@@ -327,46 +327,51 @@ export default function CourseLanding() {
       </section>
 
       <section className="problem section-pad" id="problem">
-        <p className="eyebrow">ПОЧЕМУ ОДНИХ ИНСТРУМЕНТОВ МАЛО</p>
-        <h2>
-          <span className="problem-lead">
-            <b>CAPCUT</b> могут
-            <br />
-            <em>скачать все.</em>
-          </span>
-          <span className="problem-tail">
-            <b>
-              Грамотно <br className="mobile-break" />
-              смонтировать —
-            </b>
-            <br />
-            далеко не все.
-          </span>
-        </h2>
-        <div className="observations">
-          {[
-            [
-              '01',
-              'Ролик начинается слишком медленно',
-              'Зритель уже свайпнул, пока вы подходили к сути.',
-            ],
-            [
-              '02',
-              'Субтитры выглядят как шаблон',
-              'Текст закрывает кадр вместо того, чтобы вести взгляд.',
-            ],
-            [
-              '03',
-              'Звук и картинка живут отдельно',
-              'Склейка не попадает в акцент, и ролик теряет темп.',
-            ],
-          ].map(([n, title, text]) => (
-            <article key={n}>
-              <span>{n}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
+        <div className="problem-panel">
+          <div className="problem-bar">
+            <p className="eyebrow">ПОЧЕМУ ОДНИХ ИНСТРУМЕНТОВ МАЛО</p>
+            <span>03 / COMMON EDITING ERRORS</span>
+          </div>
+          <h2>
+            <span className="problem-lead">
+              <small>ДОСТУПНОСТЬ</small>
+              <b>CAPCUT</b>
+              <em>могут скачать все.</em>
+            </span>
+            <span className="problem-symbol" aria-hidden="true">
+              ≠
+            </span>
+            <span className="problem-tail">
+              <small>НАВЫК</small>
+              <b>Грамотно смонтировать —</b>
+              <em>далеко не все.</em>
+            </span>
+          </h2>
+          <div className="observations">
+            {[
+              [
+                '01',
+                'Ролик начинается слишком медленно',
+                'Зритель уже свайпнул, пока вы подходили к сути.',
+              ],
+              [
+                '02',
+                'Субтитры выглядят как шаблон',
+                'Текст закрывает кадр вместо того, чтобы вести взгляд.',
+              ],
+              [
+                '03',
+                'Звук и картинка живут отдельно',
+                'Склейка не попадает в акцент, и ролик теряет темп.',
+              ],
+            ].map(([n, title, text]) => (
+              <article key={n}>
+                <span>{n}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
