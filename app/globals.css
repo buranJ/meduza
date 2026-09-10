@@ -324,83 +324,17 @@ section h2 em {
     linear-gradient(145deg, #193031, #111518 42%, #211a16);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
-.video-viewport:before {
-  content: '';
+.hero-video {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      115deg,
-      transparent 0 45%,
-      rgba(255, 255, 255, 0.035) 45% 46%,
-      transparent 46%
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 38px,
-      rgba(255, 255, 255, 0.035) 39px
-    );
-}
-.safe-frame {
-  position: absolute;
-  inset: 11%;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-}
-.viewport-tag {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  color: var(--cyan);
-  font: 700 8px/1 var(--font-geist-mono);
-}
-.subject-orbit {
-  position: absolute;
-  width: 135px;
-  height: 135px;
-  top: 23%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 1px solid rgba(38, 229, 229, 0.5);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-}
-.subject-orbit:before,
-.subject-orbit:after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.subject-orbit:before {
-  inset: 14px;
-}
-.subject-orbit:after {
-  inset: -24px;
-}
-.subject-orbit span {
-  font:
-    400 58px/1 Georgia,
-    serif;
-  color: rgba(255, 255, 255, 0.17);
-}
-.video-caption {
-  position: absolute;
-  left: 13%;
-  right: 13%;
-  bottom: 15%;
-  margin: 0;
-  text-align: center;
-  font: 650 13px/1.2 var(--font-geist-sans);
-  letter-spacing: -0.03em;
-}
-.video-caption strong {
-  color: #0b0c0d;
-  background: var(--cyan);
-  padding: 1px 5px;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
 }
 .play-control {
   position: absolute;
+  z-index: 2;
   inset: 0;
   margin: auto;
   width: 48px;

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, type CSSProperties } from 'react';
+import { useRef, useState, type CSSProperties } from 'react';
 import { course } from '@/data/course';
 
 const reelStyles = [
@@ -22,10 +22,26 @@ function Mark({ children }: { children: React.ReactNode }) {
 
 function EditorMockup() {
   const [playing, setPlaying] = useState(true);
+  const videoRef = useRef<HTMLIFrameElement>(null);
+
+  const togglePlayback = () => {
+    const nextPlaying = !playing;
+
+    videoRef.current?.contentWindow?.postMessage(
+      JSON.stringify({
+        event: 'command',
+        func: nextPlaying ? 'playVideo' : 'pauseVideo',
+        args: [],
+      }),
+      'https://www.youtube.com',
+    );
+    setPlaying(nextPlaying);
+  };
+
   return (
     <div
       className={`editor-shell ${playing ? 'is-playing' : ''}`}
-      aria-label="Макет видеоредактора"
+      aria-label="Ролик в макете видеоредактора"
     >
       <div className="editor-topbar">
         <span className="window-dots">
@@ -47,20 +63,19 @@ function EditorMockup() {
           ))}
         </aside>
         <div className="video-viewport">
-          <div className="safe-frame" />
-          <span className="viewport-tag">9:16</span>
-          <div className="subject-orbit">
-            <span>01</span>
-          </div>
-          <p className="video-caption">
-            ПЕРВЫЕ ДВЕ СЕКУНДЫ
-            <br />
-            <strong>РЕШАЮТ ВСЁ</strong>
-          </p>
+          <iframe
+            ref={videoRef}
+            className="hero-video"
+            src="https://www.youtube.com/embed/C6CZEmOgpUw?autoplay=1&mute=1&loop=1&playlist=C6CZEmOgpUw&controls=0&playsinline=1&rel=0&enablejsapi=1"
+            title="Ролик Жибек Мурзабековой"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
           <button
             className="play-control"
             type="button"
-            onClick={() => setPlaying(!playing)}
+            onClick={togglePlayback}
             aria-label={playing ? 'Поставить на паузу' : 'Воспроизвести'}
           >
             {playing ? (
@@ -95,7 +110,7 @@ function EditorMockup() {
       <div className="editor-transport">
         <button
           type="button"
-          onClick={() => setPlaying(!playing)}
+          onClick={togglePlayback}
           aria-label={playing ? 'Пауза' : 'Пуск'}
         >
           {playing ? 'Ⅱ' : '▶'}
