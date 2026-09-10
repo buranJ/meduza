@@ -105,6 +105,7 @@ function PortfolioSlider() {
 
 function EditorMockup() {
   const [playing, setPlaying] = useState(true);
+  const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLIFrameElement>(null);
 
   const togglePlayback = () => {
@@ -119,6 +120,20 @@ function EditorMockup() {
       'https://www.youtube.com',
     );
     setPlaying(nextPlaying);
+  };
+
+  const toggleSound = () => {
+    const nextMuted = !muted;
+
+    videoRef.current?.contentWindow?.postMessage(
+      JSON.stringify({
+        event: 'command',
+        func: nextMuted ? 'mute' : 'unMute',
+        args: [],
+      }),
+      'https://www.youtube.com',
+    );
+    setMuted(nextMuted);
   };
 
   return (
@@ -166,6 +181,16 @@ function EditorMockup() {
             ) : (
               <span className="play-icon" />
             )}
+          </button>
+          <button
+            className="sound-control"
+            type="button"
+            onClick={toggleSound}
+            aria-label={muted ? 'Включить звук' : 'Выключить звук'}
+            aria-pressed={!muted}
+          >
+            <span aria-hidden="true">{muted ? '×' : '●'}</span>
+            {muted ? 'ВКЛЮЧИТЬ ЗВУК' : 'ЗВУК ВКЛ.'}
           </button>
         </div>
         <aside className="inspector">
