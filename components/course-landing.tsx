@@ -11,6 +11,7 @@ const portfolioReels = [
   '2k9A6nURH34',
   'SNiVB7hoi0U',
 ];
+const whatsappUrl = 'https://wa.me/996555180868';
 const waveform = [
   18, 38, 62, 32, 74, 48, 26, 66, 44, 82, 34, 58, 72, 24, 48, 68, 38, 76, 30,
   54, 84, 42, 64, 26, 46, 72, 34, 60, 80, 40, 56, 28,
@@ -358,7 +359,12 @@ export default function CourseLanding() {
           <a href="#author">Автор</a>
           <a href="#faq">FAQ</a>
         </nav>
-        <a className="nav-cta" href="#price">
+        <a
+          className="nav-cta"
+          href={whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
           Начать курс <span>↗</span>
         </a>
       </header>
@@ -612,7 +618,7 @@ export default function CourseLanding() {
             <div className="price-buy">
               <small>СТОИМОСТЬ</small>
               <strong>{course.offer.price}</strong>
-              <a href="mailto:course@example.com">
+              <a href={whatsappUrl} target="_blank" rel="noreferrer">
                 Начать курс <span>→</span>
               </a>
             </div>
@@ -654,7 +660,7 @@ export default function CourseLanding() {
             <br />
             <em>смонтируешь иначе.</em>
           </h2>
-          <a href="#price">
+          <a href={whatsappUrl} target="_blank" rel="noreferrer">
             Начать курс <span>↗</span>
           </a>
         </div>
@@ -679,7 +685,12 @@ export default function CourseLanding() {
           <span>© 2026</span>
         </div>
       </footer>
-      <a className="mobile-cta" href="#price">
+      <a
+        className="mobile-cta"
+        href={whatsappUrl}
+        target="_blank"
+        rel="noreferrer"
+      >
         НАЧАТЬ КУРС <span>→</span>
       </a>
     </main>
