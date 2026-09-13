@@ -21,9 +21,94 @@ const waveform = [
   54, 84, 42, 64, 26, 46, 72, 34, 60, 80, 40, 56, 28,
 ];
 
+const skillExplanations: Record<string, string> = {
+  HOOK: 'Научишься начинать ролик с кадра, фразы или действия, которое сразу создаёт интригу и удерживает зрителя в первые секунды.',
+  CUT: 'Разберёшь, где резать кадр, чтобы переход ощущался естественно и сохранял темп истории.',
+  CAPTIONS: 'Поймёшь, как размещать текст в кадре, выделять главное и не перекрывать важные детали видео.',
+  SOUND: 'Научишься сводить голос, музыку и акценты так, чтобы звук усиливал кадр, а не спорил с ним.',
+  COLOR: 'Соберёшь единый цвет ролика и разберёшься, какие настройки нужны вместо случайных фильтров.',
+  STORY: 'Научишься выстраивать понятный сюжет: завязка, развитие и финальная мысль — даже в коротком формате.',
+};
+
+const disableYoutubeCaptions = (frame: HTMLIFrameElement) => {
+  frame.contentWindow?.postMessage(
+    JSON.stringify({
+      event: 'command',
+      func: 'unloadModule',
+      args: ['captions'],
+    }),
+    'https://www.youtube.com',
+  );
+};
+
 function Mark({ children }: { children: React.ReactNode }) {
   return <span className="mark">{children}</span>;
 }
+
+/*
+function LogoLab() {
+  return (
+    <section className="logo-lab" aria-labelledby="logo-lab-title">
+      <div className="logo-lab-head">
+        <div>
+          <h2 id="logo-lab-title">
+            ВАРИАНТЫ
+            <br />
+            <em>meduza.</em>
+          </h2>
+        </div>
+        <p>Выберите номер варианта — поставлю его в шапку сайта.</p>
+      </div>
+      <div className="logo-variants">
+        <article className="logo-variant variant-one">
+          <span>MONOGRAM</span>
+          <div className="lab-logo logo-one">
+            <b>m</b>
+            <strong>meduza</strong>
+          </div>
+          <p>Символ + чистое имя</p>
+        </article>
+        <article className="logo-variant variant-two">
+          <span>CUT TYPE</span>
+          <div className="lab-logo logo-two">
+            <strong>medu</strong>
+            <i />
+            <em>za</em>
+          </div>
+          <p>Знак склейки в слове</p>
+        </article>
+        <article className="logo-variant variant-three">
+          <span>FRAME</span>
+          <div className="lab-logo logo-three">
+            <strong>MEDU</strong>
+            <em>ZA</em>
+            <i />
+          </div>
+          <p>Контрастный редакторский</p>
+        </article>
+        <article className="logo-variant variant-four">
+          <span>SIGNATURE</span>
+          <div className="lab-logo logo-four">
+            <strong>medu</strong>
+            <em>za</em>
+            <i>✦</i>
+          </div>
+          <p>Мягкий авторский знак</p>
+        </article>
+        <article className="logo-variant variant-five">
+          <span>TIMECODE</span>
+          <div className="lab-logo logo-five">
+            <i>00:16</i>
+            <strong>meduza</strong>
+            <b>REC</b>
+          </div>
+          <p>Лого как часть таймлайна</p>
+        </article>
+      </div>
+    </section>
+  );
+}
+*/
 
 function PortfolioSlider() {
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -62,7 +147,6 @@ function PortfolioSlider() {
           </h2>
         </div>
         <div className="showcase-controls">
-          <span>05 / SHORTS</span>
           <button
             type="button"
             onClick={() => scrollPortfolio(-1)}
@@ -93,9 +177,10 @@ function PortfolioSlider() {
         {portfolioReels.map((videoId, index) => (
           <article className="reel" key={videoId}>
             <iframe
-              src={`https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&cc_load_policy=0&iv_load_policy=3`}
+              src={`https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&enablejsapi=1&cc_load_policy=0&iv_load_policy=3`}
               title={`Работа Жибек Мурзабековой — ролик ${index + 1}`}
               loading="lazy"
+              onLoad={(event) => disableYoutubeCaptions(event.currentTarget)}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
@@ -108,23 +193,8 @@ function PortfolioSlider() {
 }
 
 function EditorMockup() {
-  const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLIFrameElement>(null);
-
-  const togglePlayback = () => {
-    const nextPlaying = !playing;
-
-    videoRef.current?.contentWindow?.postMessage(
-      JSON.stringify({
-        event: 'command',
-        func: nextPlaying ? 'playVideo' : 'pauseVideo',
-        args: [],
-      }),
-      'https://www.youtube.com',
-    );
-    setPlaying(nextPlaying);
-  };
 
   const toggleSound = () => {
     const nextMuted = !muted;
@@ -141,19 +211,12 @@ function EditorMockup() {
   };
 
   return (
-    <div
-      className={`editor-shell ${playing ? 'is-playing' : ''}`}
-      aria-label="Ролик в макете видеоредактора"
-    >
+    <div className="editor-shell is-playing" aria-label="Ролик в макете видеоредактора">
       <div className="editor-topbar">
         <span className="window-dots">
           <i />
           <i />
           <i />
-        </span>
-        <span>PROJECT_01 / REEL_9x16</span>
-        <span className="export-state">
-          <i /> ГОТОВО К ЭКСПОРТУ
         </span>
       </div>
       <div className="editor-stage">
@@ -170,22 +233,11 @@ function EditorMockup() {
             className="hero-video"
             src="https://www.youtube.com/embed/C6CZEmOgpUw?autoplay=1&mute=1&loop=1&playlist=C6CZEmOgpUw&controls=0&playsinline=1&rel=0&enablejsapi=1&cc_load_policy=0&iv_load_policy=3"
             title="Ролик Жибек Мурзабековой"
+            onLoad={(event) => disableYoutubeCaptions(event.currentTarget)}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           />
-          <button
-            className="play-control"
-            type="button"
-            onClick={togglePlayback}
-            aria-label={playing ? 'Поставить на паузу' : 'Воспроизвести'}
-          >
-            {playing ? (
-              <span className="pause-icon" />
-            ) : (
-              <span className="play-icon" />
-            )}
-          </button>
           <button
             className="sound-control"
             type="button"
@@ -226,18 +278,6 @@ function EditorMockup() {
           </dl>
         </aside>
       </div>
-      <div className="editor-transport">
-        <button
-          type="button"
-          onClick={togglePlayback}
-          aria-label={playing ? 'Пауза' : 'Пуск'}
-        >
-          {playing ? 'Ⅱ' : '▶'}
-        </button>
-        <span>00:00:0{playing ? '7' : '6'}:18</span>
-        <span>/</span>
-        <span>00:00:18:00</span>
-      </div>
       <div className="timeline-mini">
         <div className="ruler">
           <span>00:00</span>
@@ -250,8 +290,8 @@ function EditorMockup() {
         </div>
         <div className="track">
           <b>ВИДЕО</b>
-          <span className="clip clip-a">A001</span>
-          <span className="clip clip-b">A002</span>
+          <span className="clip clip-a" />
+          <span className="clip clip-b" />
         </div>
         <div className="track">
           <b>ТЕКСТ</b>
@@ -294,7 +334,6 @@ function ProgramTimeline() {
               className={`module-clip ${item.color}`}
               style={{ width: `${item.width}%` }}
             >
-              <small>{item.id}</small>
               <strong>{item.title}</strong>
               <i />
             </span>
@@ -302,7 +341,7 @@ function ProgramTimeline() {
         ))}
       </section>
       <aside className="module-inspector" aria-live="polite">
-        <span>СВОЙСТВА / МОДУЛЬ {selected.id}</span>
+        <span>СВОЙСТВА МОДУЛЯ</span>
         <h3>{selected.title}</h3>
         <p>{selected.detail}</p>
         <dl>
@@ -351,6 +390,15 @@ function BeforeAfter() {
         style={{ '--split': `${value}%` } as CSSProperties}
       >
         <div className="compare-before">
+          <div className="compare-video">
+            <iframe
+              src="https://www.youtube.com/embed/WsiSnJgH9qs?autoplay=1&mute=1&loop=1&playlist=WsiSnJgH9qs&controls=0&playsinline=1&rel=0&enablejsapi=1&cc_load_policy=0&iv_load_policy=3"
+              title="Ролик до монтажа"
+              onLoad={(event) => disableYoutubeCaptions(event.currentTarget)}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
           <span>ДО</span>
           <p>
             случайный темп
@@ -359,6 +407,15 @@ function BeforeAfter() {
           </p>
         </div>
         <div className="compare-after">
+          <div className="compare-video">
+            <iframe
+              src="https://www.youtube.com/embed/8hn0dmSqtx0?autoplay=1&mute=1&loop=1&playlist=8hn0dmSqtx0&controls=0&playsinline=1&rel=0&enablejsapi=1&cc_load_policy=0&iv_load_policy=3"
+              title="Ролик после монтажа"
+              onLoad={(event) => disableYoutubeCaptions(event.currentTarget)}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
           <span>ПОСЛЕ</span>
           <p>
             точный ритм
@@ -381,20 +438,53 @@ function BeforeAfter() {
 }
 
 export default function CourseLanding() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <main>
       <header className="site-nav">
         <a className="wordmark" href="#top" aria-label="В начало">
-          <span>✣</span>
-          {course.brand}
+          <span className="logo-symbol" aria-hidden="true">
+            <b>m</b>
+            <i />
+          </span>
+          <span className="logo-name">
+            medu<em>za</em>
+          </span>
+          <span className="logo-label">CUT LAB</span>
         </a>
-        <nav aria-label="Основная навигация">
-          <a href="#program">Программа</a>
-          <a href="#work">Работы</a>
-          <a href="#result">Результат</a>
-          <a href="#author">Автор</a>
-          <a href="#faq">FAQ</a>
+        <nav
+          className={menuOpen ? 'is-open' : ''}
+          id="main-navigation"
+          aria-label="Основная навигация"
+        >
+          <a href="#program" onClick={() => setMenuOpen(false)}>
+            Программа
+          </a>
+          <a href="#work" onClick={() => setMenuOpen(false)}>
+            Работы
+          </a>
+          <a href="#result" onClick={() => setMenuOpen(false)}>
+            Результат
+          </a>
+          <a href="#author" onClick={() => setMenuOpen(false)}>
+            Автор
+          </a>
+          <a href="#faq" onClick={() => setMenuOpen(false)}>
+            FAQ
+          </a>
         </nav>
+        <button
+          className={`menu-toggle ${menuOpen ? 'is-open' : ''}`}
+          type="button"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-expanded={menuOpen}
+          aria-controls="main-navigation"
+          aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'}
+        >
+          <span />
+          <span />
+        </button>
         <a
           className="nav-cta"
           href={whatsappUrl}
@@ -431,34 +521,26 @@ export default function CourseLanding() {
           </div>
         </div>
         <EditorMockup />
-        <div className="format-list" aria-hidden="true">
-          <span>VIDEO</span>
-          <span>TEXT</span>
-          <span>SFX</span>
-          <span>MUSIC</span>
-        </div>
       </section>
 
+      {/* <LogoLab /> */}
+
       <section className="proof" aria-label="Параметры курса">
-        <span className="proof-label">PROJECT INFO</span>
         {course.meta.map((item) => (
           <div key={item.label}>
             <strong>{item.value}</strong>
             <span>{item.label}</span>
           </div>
         ))}
-        <span className="proof-end">COURSE_01.MP4</span>
       </section>
 
       <section className="problem section-pad" id="problem">
         <div className="problem-panel">
           <div className="problem-bar">
             <p className="eyebrow">ПОЧЕМУ ОДНИХ ИНСТРУМЕНТОВ МАЛО</p>
-            <span>03 / COMMON EDITING ERRORS</span>
           </div>
           <h2>
             <span className="problem-lead">
-              <small>ДОСТУПНОСТЬ</small>
               <b>CAPCUT</b>
               <em>могут скачать все.</em>
             </span>
@@ -466,7 +548,6 @@ export default function CourseLanding() {
               ≠
             </span>
             <span className="problem-tail">
-              <small>НАВЫК</small>
               <b>Грамотно смонтировать —</b>
               <em>далеко не все.</em>
             </span>
@@ -474,23 +555,19 @@ export default function CourseLanding() {
           <div className="observations">
             {[
               [
-                '01',
                 'Ролик начинается слишком медленно',
                 'Зритель уже свайпнул, пока вы подходили к сути.',
               ],
               [
-                '02',
                 'Субтитры выглядят как шаблон',
                 'Текст закрывает кадр вместо того, чтобы вести взгляд.',
               ],
               [
-                '03',
                 'Звук и картинка живут отдельно',
                 'Склейка не попадает в акцент, и ролик теряет темп.',
               ],
-            ].map(([n, title, text]) => (
-              <article key={n}>
-                <span>{n}</span>
+            ].map(([title, text]) => (
+              <article key={title}>
                 <h3>{title}</h3>
                 <p>{text}</p>
               </article>
@@ -508,20 +585,15 @@ export default function CourseLanding() {
           <div>
             <h2>ПРОГРАММА</h2>
           </div>
-          <p>
-            Не список уроков, а монтажная последовательность: каждый модуль
-            добавляет новую дорожку к финальному ролику.
-          </p>
         </div>
         <ProgramTimeline />
       </section>
 
       <section className="skills section-pad">
-        <p className="eyebrow">SKILL STACK / 06</p>
         <div className="skills-head">
           <h2>
-            ЧТО БУДЕТ
-            <br />В <em>руках.</em>
+            ЧЕМУ НАУЧИШЬСЯ
+            <br />НА <em>КУРСЕ.</em>
           </h2>
           <p>
             Не набор эффектов. Система решений, которую можно перенести в любой
@@ -529,20 +601,23 @@ export default function CourseLanding() {
           </p>
         </div>
         <div className="skill-list">
-          {course.skills.map((skill, index) => (
-            <article key={skill.name}>
-              <span>0{index + 1}</span>
-              <h3>{skill.name}</h3>
-              <p>{skill.text}</p>
-              <i />
-            </article>
+          {course.skills.map((skill) => (
+            <details key={skill.name}>
+              <summary>
+                <h3>{skill.name}</h3>
+                <p>{skill.text}</p>
+                <i aria-hidden="true" />
+              </summary>
+              <div className="skill-explanation">
+                <p>{skillExplanations[skill.name]}</p>
+              </div>
+            </details>
           ))}
         </div>
       </section>
 
       <section className="result section-pad" id="result">
         <div className="result-copy">
-          <p className="eyebrow">COMPARE / VERSION 01—02</p>
           <h2>
             ДО И<br />
             <em>после.</em>
@@ -565,11 +640,8 @@ export default function CourseLanding() {
             sizes="(max-width: 780px) 100vw, 50vw"
             unoptimized
           />
-          <span>MENTOR / ZHIBEK</span>
-          <b>07+ YEARS</b>
         </div>
         <div className="instructor-copy">
-          <p className="eyebrow">WHO / CREATOR</p>
           <h2>
             КТО
             <br />
@@ -594,9 +666,8 @@ export default function CourseLanding() {
         </div>
       </section>
 
-      <section className="fit section-pad">
+      {/* <section className="fit section-pad">
         <div>
-          <span>01 / ТЕБЕ СЮДА</span>
           <h2>
             ЕСЛИ ХОЧЕШЬ
             <br />
@@ -611,7 +682,6 @@ export default function CourseLanding() {
           </ul>
         </div>
         <div>
-          <span>02 / НЕ ТЕБЕ СЮДА</span>
           <h2>
             ЕСЛИ НУЖНА
             <br />
@@ -625,49 +695,32 @@ export default function CourseLanding() {
             <li>Нужен курс по сложному киношному софту</li>
           </ul>
         </div>
-      </section>
+      </section> */}
 
       <section className="pricing section-pad" id="price">
         <div className="pricing-heading">
           <div>
-            <p className="eyebrow">EXPORT SETTINGS / 03</p>
             <h2>
               ВЫБЕРИ
               <br />
-              <em>свой режим.</em>
+              <em>свой тариф.</em>
             </h2>
           </div>
-          <p>
-            Один курс — три уровня поддержки. Выбирай, сколько обратной связи
-            нужно именно тебе.
-          </p>
-        </div>
-        <div className="pricing-ruler" aria-hidden="true">
-          <span>00:00 / START</span>
-          <span>TRACK 01—03</span>
-          <span>EXPORT / READY</span>
         </div>
         <div className="pricing-grid">
-          {course.plans.map((plan, index) => (
+          {course.plans.map((plan) => (
             <article
               className={`plan-card ${plan.featured ? 'featured' : ''}`}
               key={plan.code}
             >
-              <div className="plan-chrome">
-                <span>TRACK / 0{index + 1}</span>
-                <span>{plan.featured ? '● РЕКОМЕНДУЕМ' : '○ ДОСТУПЕН'}</span>
-              </div>
-              <div className="plan-clip" aria-hidden="true">
-                <span>{plan.code}</span>
-                <i />
-                <b>0{index + 1}</b>
-              </div>
               <div className="plan-name">
-                <small>{plan.code}</small>
                 <h3>{plan.name}</h3>
-                <p>{plan.description}</p>
               </div>
-              <strong className="plan-price">{plan.price}</strong>
+              <div className="plan-price-wrap">
+                <span className="plan-discount">−20%</span>
+                <del>{plan.oldPrice}</del>
+                <strong className="plan-price">{plan.price}</strong>
+              </div>
               <ul>
                 {plan.features.map((feature) => (
                   <li key={feature}>{feature}</li>
@@ -687,7 +740,6 @@ export default function CourseLanding() {
 
       <section className="faq section-pad" id="faq">
         <div>
-          <p className="eyebrow">HELP / 06</p>
           <h2>
             ЧАСТЫЕ
             <br />
@@ -695,10 +747,9 @@ export default function CourseLanding() {
           </h2>
         </div>
         <div className="faq-list">
-          {course.faq.map(([question, answer], index) => (
+          {course.faq.map(([question, answer]) => (
             <details key={question}>
               <summary>
-                <span>0{index + 1}</span>
                 {question}
                 <i>+</i>
               </summary>
@@ -709,8 +760,7 @@ export default function CourseLanding() {
       </section>
 
       <section className="final-cta">
-        <div>
-          <p className="eyebrow">EXPORT / READY</p>
+        <div className="final-cta-copy">
           <h2>
             СЛЕДУЮЩИЙ
             <br />
@@ -718,30 +768,61 @@ export default function CourseLanding() {
             <br />
             <em>смонтируешь иначе.</em>
           </h2>
-          <a href={whatsappUrl} target="_blank" rel="noreferrer">
-            Начать курс <span>↗</span>
-          </a>
+          <p className="final-cta-text">
+            Выбери свой тариф и начни собирать ролики, которые хочется
+            досмотреть до конца.
+          </p>
+          <div className="final-cta-actions">
+            <a href={whatsappUrl} target="_blank" rel="noreferrer">
+              Записаться на курс <span>↗</span>
+            </a>
+            <p>
+              <strong>−20%</strong>
+              <span>на все тарифы</span>
+            </p>
+          </div>
         </div>
-        <div className="end-timeline" aria-hidden="true">
-          <span>V1</span>
-          <i />
-          <i />
-          <i />
-          <b />
+        <div className="final-cta-visual" aria-hidden="true">
+          <div className="cta-video-frame">
+            <i />
+            <span>▶</span>
+          </div>
+          <div className="end-timeline">
+            <i />
+            <i />
+            <i />
+            <b />
+          </div>
         </div>
       </section>
 
       <footer id="legal">
-        <a className="wordmark" href="#top">
-          <span>✣</span>
-          {course.brand}
+        <a className="wordmark" href="#top" aria-label="В начало">
+          <span className="logo-symbol" aria-hidden="true">
+            <b>m</b>
+            <i />
+          </span>
+          <span className="logo-name">
+            medu<em>za</em>
+          </span>
+          <span className="logo-label">CUT LAB</span>
         </a>
-        <p>Независимый образовательный проект. Не аффилирован с CapCut.</p>
-        <div>
-          <a href="#legal">Оферта</a>
-          <a href="#legal">Политика</a>
-          <span>© 2026</span>
-        </div>
+        <nav className="footer-nav" aria-label="Навигация в футере">
+          <a href="#program">Программа</a>
+          <a href="#work">Работы</a>
+          <a href="#result">Результат</a>
+          <a href="#author">Автор</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a
+          className="footer-credit"
+          href="https://itdos.dev"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>Разработано</span>
+          <strong>itdos.dev ↗</strong>
+        </a>
       </footer>
       <a
         className="mobile-cta"
